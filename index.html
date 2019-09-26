@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script>
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(
+                75, // field of view (in degrees)
+                window.innerWidth / window.innerHeight, // aspect ratio
+                0.1, // near clipping plane
+                1000); // far clipping plane 
+
+            var renderer = new THREE.WebGLRenderer(); // might not be supported by a few browsers - need a fallback/backup renderer
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            /* Create a cube */
+            
+            var geometry = new THREE.BoxGeometry( 1, 1, 1 ); // the cube
+            var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } ); // material to color the cube
+            var cube = new THREE.Mesh( geometry, material ); // mesh takes a geometry and applies material to it
+            scene.add( cube ); // will be added to (0,0,0)
+            camera.position.z = 5; // hence why we need to move the camera positioning a little bit
+
+            // At this point we'll have the scene, camera, renderer, and the object
+            // But we can't see anything yet because we're not actually rendering anything yet
+
+            // loop that causes the renderer to draw the scene every time the screen is refreshed
+            function animate() {
+                requestAnimationFrame( animate );
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+                renderer.render( scene, camera );
+            }
+            animate();
+		</script>
+	</body>
+</html>
